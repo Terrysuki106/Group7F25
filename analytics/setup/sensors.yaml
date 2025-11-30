@@ -1,0 +1,155 @@
+sensors:
+  master_time:
+    plot_title: "Time"
+    unit: "timestamp"
+    description: "Absolute timestamp of measurement"
+
+  t_rel:
+    plot_title: "Elapsed Time"
+    unit: "s"
+    description: "Time relative to start of recording"
+
+  Accelerometer_x:
+    plot_title: "Accelerometer X"
+    unit: "m/s^2"
+    description: "Linear acceleration along X (gravity removed)"
+
+  Accelerometer_y:
+    plot_title: "Accelerometer Y"
+    unit: "m/s^2"
+    description: "Linear acceleration along Y (gravity removed)"
+
+  Accelerometer_z:
+    plot_title: "Accelerometer Z"
+    unit: "m/s^2"
+    description: "Linear acceleration along Z (gravity removed)"
+
+  TotalAcceleration_x:
+    plot_title: "Total Acceleration X"
+    unit: "m/s^2"
+    description: "Acceleration along X including gravity"
+
+  TotalAcceleration_y:
+    plot_title: "Total Acceleration Y"
+    unit: "m/s^2"
+    description: "Acceleration along Y including gravity"
+
+  TotalAcceleration_z:
+    plot_title: "Total Acceleration Z"
+    unit: "m/s^2"
+    description: "Acceleration along Z including gravity"
+
+  Gravity_x:
+    plot_title: "Gravity X"
+    unit: "m/s^2"
+    description: "Gravity vector along X"
+
+  Gravity_y:
+    plot_title: "Gravity Y"
+    unit: "m/s^2"
+    description: "Gravity vector along Y"
+
+  Gravity_z:
+    plot_title: "Gravity Z"
+    unit: "m/s^2"
+    description: "Gravity vector along Z"
+
+  Gyroscope_x:
+    plot_title: "Gyroscope X"
+    unit: "rad/s"
+    description: "Angular velocity around X axis"
+
+  Gyroscope_y:
+    plot_title: "Gyroscope Y"
+    unit: "rad/s"
+    description: "Angular velocity around Y axis"
+
+  Gyroscope_z:
+    plot_title: "Gyroscope Z"
+    unit: "rad/s"
+    description: "Angular velocity around Z axis"
+
+  Compass_magneticBearing:
+    plot_title: "Compass Bearing"
+    unit: "degrees"
+    description: "Magnetic bearing relative to north"
+
+  Location_latitude:
+    plot_title: "Latitude"
+    unit: "degrees"
+    description: "Latitude (-90 to 90)"
+
+  Location_longitude:
+    plot_title: "Longitude"
+    unit: "degrees"
+    description: "Longitude (-180 to 180)"
+
+  Location_altitude:
+    plot_title: "Altitude"
+    unit: "m"
+    description: "Height above WGS84 ellipsoid"
+
+  Location_bearing:
+    plot_title: "Location Bearing"
+    unit: "degrees"
+    description: "Bearing relative to north (0–360, negative = invalid)"
+
+  Location_bearingAccuracy:
+    plot_title: "Bearing Accuracy"
+    unit: "degrees"
+    description: "Uncertainty radius for bearing (negative = invalid)"
+
+  Location_horizontalAccuracy:
+    plot_title: "Horizontal Accuracy"
+    unit: "m"
+    description: "Uncertainty radius for horizontal position (negative = invalid)"
+
+  Location_verticalAccuracy:
+    plot_title: "Vertical Accuracy"
+    unit: "m"
+    description: "Uncertainty radius for altitude (negative = invalid)"
+
+  Location_speed:
+    plot_title: "Speed"
+    unit: "m/s"
+    description: "Derived speed from location (negative = invalid)"
+
+  Location_speedAccuracy:
+    plot_title: "Speed Accuracy"
+    unit: "m/s"
+    description: "Uncertainty in speed estimate (negative = invalid)"
+
+  Orientation_roll:
+    plot_title: "Roll"
+    unit: "rad"
+    description: "Rotation around X axis"
+
+  Orientation_pitch:
+    plot_title: "Pitch"
+    unit: "rad"
+    description: "Rotation around Y axis"
+
+  Orientation_yaw:
+    plot_title: "Yaw"
+    unit: "rad"
+    description: "Rotation around Z axis"
+
+  Orientation_qx:
+    plot_title: "Quaternion X"
+    unit: "dimensionless"
+    description: "Quaternion component X"
+
+  Orientation_qy:
+    plot_title: "Quaternion Y"
+    unit: "dimensionless"
+    description: "Quaternion component Y"
+
+  Orientation_qz:
+    plot_title: "Quaternion Z"
+    unit: "dimensionless"
+    description: "Quaternion component Z"
+
+  Orientation_qw:
+    plot_title: "Quaternion W"
+    unit: "dimensionless"
+    description: "Quaternion scalar component"
