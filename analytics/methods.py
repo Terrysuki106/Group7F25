@@ -93,6 +93,21 @@ def add_entry(session, cfg, metadata, driving_score, trip_details, csv_path, jsn
     # --- Commit all ---
     session.commit()
 
+    # --- Step 5: Update Driver overall_score ---
+    all_scores = (
+        session.query(AnalyticsSummary.final_score)
+        .join(Trip, AnalyticsSummary.trip_id == Trip.trip_id)
+        .filter(Trip.driver_id == driver.driver_id)
+        .all()
+    )
+    if all_scores:
+        valid_scores = [s[0] for s in all_scores if s[0] is not None]
+        if valid_scores:
+            avg_score = sum(valid_scores) / len(valid_scores)
+            driver.overall_score = avg_score
+            session.commit()
+            session.refresh(driver)
+
     # --- Return schemas ---
     return {
         "status": "success",
