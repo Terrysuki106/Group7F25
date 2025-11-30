@@ -12,10 +12,10 @@ def ingest_driving_data(base_filename: str, cfg: Config):
     sensor_streams = split_full_data(df, cfg)
     master_timeline = build_master_timeline(sensor_streams, cfg)
     fused_dataframe = fuse_sensors(sensor_streams, master_timeline,cfg)
-    save_output(base_filename, fused_dataframe,metadata, cfg)
+    (csv_path, json_path) = save_output(base_filename, fused_dataframe,metadata, cfg)
     print("[Done] Data Ingestion")
 
-    return (fused_dataframe, metadata)
+    return (fused_dataframe, metadata, csv_path, json_path)
 
 def load_data(base_filename: str, cfg: Config): # -> Tuple[pd.DataFrame, Dict]:
     """
@@ -59,5 +59,7 @@ def save_output(base_filename:str, df: pd.DataFrame, metadata, cfg: Config):
 
     with open(jsn_path, "w", encoding="utf-8") as f:
         json.dump(metadata, f, indent=2)
+    
+    return csv_path,jsn_path
     
     

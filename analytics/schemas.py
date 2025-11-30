@@ -8,7 +8,7 @@ class DriverSchema(BaseModel):
     overall_score: float | None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class TripSchema(BaseModel):
@@ -16,13 +16,15 @@ class TripSchema(BaseModel):
     driver_id: int
     start_time: datetime
     end_time: datetime | None
-    duration_minutes: int | None
+    duration_minutes: float | None
     distance_km: float | None
     average_speed: float | None
     max_speed: float | None
+    accl_max:  float |None
+    brk_max:  float | None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class TripMetadataSchema(BaseModel):
@@ -34,26 +36,23 @@ class TripMetadataSchema(BaseModel):
     sampling_rate: int | None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class FileArchiveSchema(BaseModel):
     file_id: int | None
     trip_id: int
-    original_filename: str | None
-    file_type: str | None
-    upload_time: datetime | None
-    file_path: str | None
-
+    csv_filename: str|None
+    jsn_filename: str|None
+    file_path:str|None
+    
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class AnalyticsSummarySchema(BaseModel):
     summary_id: int | None
     trip_id: int
-    average_speed: float | None
-    harsh_events: int | None
     overspeed_events: int | None
     overspeed_duration_sec: int | None
     acceleration_events: int | None
@@ -63,4 +62,4 @@ class AnalyticsSummarySchema(BaseModel):
     final_score_percent: float | None
 
     class Config:
-        orm_mode = True
+        from_attributes = True

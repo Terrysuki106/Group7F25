@@ -367,10 +367,10 @@ def calculate_trip_properties(df: pd.DataFrame) -> dict:
     return {
         "start": trip_start,
         "end": trip_end,
-        "duration": trip_duration/3600,
-        "distance": distance_km,
-        "v_avg": avg_speed,
-        "v_max": max_speed,
-        "a_max": max_acceleration,
-        "b_bax": max_braking
+        "duration": round(trip_duration/60,2),
+        "distance": round(distance_km,2),
+        "v_avg": round(avg_speed,2),
+        "v_max": round(max_speed,2),
+        "a_max": round(max_acceleration,2),
+        "b_max": round(max_braking,2)
     }

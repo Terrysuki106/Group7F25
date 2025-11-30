@@ -23,9 +23,11 @@ class Trip(Base):
     distance_km = Column(Float)
     average_speed = Column(Float)
     max_speed = Column(Float)
+    accl_max = Column(Float)
+    brk_max = Column(Float)
 
     driver = relationship("Driver", back_populates="trips")
-    metadata = relationship("TripMetadata", uselist=False, back_populates="trip")
+    trip_metainfo = relationship("TripMetadata", uselist=False, back_populates="trip")
     files = relationship("FileArchive", back_populates="trip")
     summary = relationship("AnalyticsSummary", uselist=False, back_populates="trip")
 
@@ -39,17 +41,17 @@ class TripMetadata(Base):
     timezone = Column(String)
     sampling_rate = Column(Integer)
 
-    trip = relationship("Trip", back_populates="metadata")
+    trip = relationship("Trip", back_populates="trip_metainfo")
 
 
 class FileArchive(Base):
     __tablename__ = "file_archive"
     file_id = Column(Integer, primary_key=True, autoincrement=True)
     trip_id = Column(Integer, ForeignKey("trips.trip_id"), nullable=False)
-    original_filename = Column(String)
-    file_type = Column(String, CheckConstraint("file_type IN ('CSV','JSON')"))
+    csv_filename = Column(String)
+    jsn_filename = Column(String)
     file_path = Column(String)
-
+    
     trip = relationship("Trip", back_populates="files")
 
 
