@@ -1,0 +1,12 @@
+{
+  "version": 3,
+  "platform": "android",
+  "appVersion": "1.49.0",
+  "deviceId": "66436fbf-752f-48e5-9c95-2ae565aa7085",
+  "timezone": "America/Toronto",
+  "sensors": "Accelerometer|Gravity|Gyroscope|Orientation|Compass|Location|TotalAcceleration",
+  "sampleRateMs": "10|10|10|10|10|0|10",
+  "standardisation": false,
+  "username": "Moutushi Sarkar",
+  "email": "mou2c@gmail.com"
+}
