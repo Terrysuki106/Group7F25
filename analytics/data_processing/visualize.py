@@ -1,10 +1,13 @@
 import matplotlib.pyplot as plt
 import plotly.express as px
 import matplotlib.pyplot as plt
+from pathlib import Path
 
 import geopandas as gpd
 from shapely.geometry import LineString
 import contextily as ctx
+import folium
+import os
 
 def plot_route_static(df, lat_col="Location_latitude", lon_col="Location_longitude",
                       output_file="route_map.png", padding=0.05, figsize=(8,6)):
@@ -90,6 +93,29 @@ def plot_columns(
         plt.title(title if title else col)
         plt.tight_layout()
         plt.show()
+
+def generate_trip_map(df, cfg, csv_path: Path):
+    
+    output_dir = Path(cfg.output_path)
+    
+    # Ensure output folder exists
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    html_path = output_dir / (csv_path.stem + ".html")
+
+    # Create map
+    start_lat = df["Location_latitude"].iloc[0]
+    start_lon = df["Location_longitude"].iloc[0]
+    m = folium.Map(location=[start_lat, start_lon], zoom_start=13)
+
+    coords = list(zip(df["Location_latitude"], df["Location_longitude"]))
+    folium.PolyLine(coords, color="blue", weight=2.5, opacity=1).add_to(m)
+    folium.Marker(coords[0], tooltip="Start").add_to(m)
+    folium.Marker(coords[-1], tooltip="End").add_to(m)
+
+    # Save to persistent location
+    m.save(str(html_path), close_file=False)
+    return html_path
 
 class SensorPlotter:
     def __init__(self, df, meta):

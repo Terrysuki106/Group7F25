@@ -1,10 +1,10 @@
 # Main module
-from setup.helpers import Initialize_configuration 
+import pandas as pd
+from pathlib import Path
+import matplotlib.pyplot as plt
+from setup.config import Initialize_configuration 
 from sensor_pipeline.ingestion import ingest_driving_data
 from data_processing.data_processing import apply_filter, add_accel_braking, calculate_driving_score, calculate_trip_properties
-from pathlib import Path
-import pandas as pd
-import matplotlib.pyplot as plt
 from data_processing.visualize import plot_route_static
 from database import Database
 from methods import add_entry
@@ -12,7 +12,7 @@ from methods import add_entry
 def run_workflow():
     cfg, sensor_metadata = Initialize_configuration()
 
-    SourcePath = Path("C:\\BCS\\Term 3\\Systems Analysis and Design - Akrem\\Project\\Group7F25\\data")
+    SourcePath = Path("C:\\Work\\Moutushi Sarkar\\codes\\Group7F25\\data")
 
     fused_dataframe, metadata, csv_path, jsn_path = ingest_driving_data(SourcePath / "sensors_testRide.csv" ,cfg)
 
@@ -61,7 +61,7 @@ def run_workflow():
 
     print('Initializing DB connection')
     # Initialize DB and create a session
-    db = Database(cfg)
+    db = Database(cfg) 
     db.init_db()
     session = db.get_session()
 
@@ -74,6 +74,7 @@ def run_workflow():
     print("\nInserted records:")
     for key, schema in result.items():
         print(f"{key}: {schema}")
+   
 
 def run_code():
     repo_root = Path.cwd() / "ingested_data" # current working directory, then go up one

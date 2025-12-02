@@ -1,5 +1,25 @@
 from models import Driver, Trip, TripMetadata, FileArchive, AnalyticsSummary
 from schemas import DriverSchema, TripSchema, TripMetadataSchema, FileArchiveSchema, AnalyticsSummarySchema
+from contextlib import contextmanager
+from models import Driver
+from setup.config import Config
+from database import Database
+from pathlib import Path
+from typing import Callable
+
+@contextmanager
+def get_session(cfg: Config):
+    db = Database(cfg)
+    db.init_db()
+    session = db.get_session()
+    try:
+        yield session
+        session.commit()
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()
 
 def add_entry(session, cfg, metadata, driving_score, trip_details, csv_path, jsn_path):
     """
@@ -97,7 +117,7 @@ def add_entry(session, cfg, metadata, driving_score, trip_details, csv_path, jsn
 
         # --- Step 5: Update Driver overall_score ---
         all_scores = (
-            session.query(AnalyticsSummary.final_score)
+            session.query(AnalyticsSummary.final_score_percent)
             .join(Trip, AnalyticsSummary.trip_id == Trip.trip_id)
             .filter(Trip.driver_id == driver.driver_id)
             .all()
@@ -106,7 +126,7 @@ def add_entry(session, cfg, metadata, driving_score, trip_details, csv_path, jsn
             valid_scores = [s[0] for s in all_scores if s[0] is not None]
             if valid_scores:
                 avg_score = sum(valid_scores) / len(valid_scores)
-                driver.overall_score = avg_score
+                driver.overall_score = avg_score #type: ignore
                 session.commit()
                 session.refresh(driver)
 
@@ -123,3 +143,31 @@ def add_entry(session, cfg, metadata, driving_score, trip_details, csv_path, jsn
         session.rollback()
         raise
     
+def add_entry_to_db(
+        cfg: Config, 
+        metadata: dict, 
+        driving_score: dict, 
+        trip_details: dict, 
+        csv_path: Path, 
+        jsn_path: Path, 
+        logger: Callable[[str],None] | None = None
+    ):
+    try:
+        with get_session(cfg) as session:
+            if logger:
+                logger("Database connection opened.")
+
+            result = add_entry(session, cfg, metadata, driving_score, trip_details, csv_path, jsn_path)
+            return result
+    except Exception as e:
+        if logger:
+            logger("Error while writing entry to the DB")
+        raise
+
+def get_driver_overall_score(session, name: str, email: str | None = None) -> float | None:
+    query = session.query(Driver).filter(Driver.name == name)
+    if email:
+        query = query.filter(Driver.email == email)
+    driver = query.first()
+
+    return driver.overall_score if driver and driver.overall_score is not None else None

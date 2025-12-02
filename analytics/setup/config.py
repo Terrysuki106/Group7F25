@@ -1,5 +1,5 @@
 # sensor_pipeline/config.py
-
+from setup.sensor_metadata import SensorMeta
 from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -32,6 +32,8 @@ class Config(BaseSettings):
     def db_url(self) -> str:
         return f"sqlite:///{self.db_path}"
 
-
 def Initialize_configuration():
-    cfg = Config() # type: ignore
+    CONFIG_PATH = Path(__file__).resolve().parent.parent / "setup" / "sensors.yaml"
+    meta = SensorMeta(str(CONFIG_PATH))
+    cfg = Config() #type: ignore
+    return cfg, meta
